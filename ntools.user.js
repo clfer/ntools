@@ -12,7 +12,7 @@ String.prototype.capitalize = function () {
 }
 
 nToolsCookie = {
-  // Créer/éditer un cookie.
+  // Create/edit a cookie.
   create: function (name, value, days) {
     'use strict';
     if (days) {
@@ -26,7 +26,7 @@ nToolsCookie = {
     document.cookie = name + '=' + value + expires + '; path=/';
   },
 
-  // Lire un cookie.
+  // Read a cookie.
   read: function (name) {
     'use strict';
     var nameEQ = name + '=';
@@ -43,7 +43,7 @@ nToolsCookie = {
     return null;
   },
 
-  // Supprimer un cookie.
+  // Delete a cookie.
   erase: function (name) {
     'use strict';
     nToolsCookie.create(name, '', -1);
@@ -51,7 +51,7 @@ nToolsCookie = {
 }
 
 nToolsHelper = {
-  // Configure de façon pertinente la traduction des entités.
+  // Configure appropriately entities translation.
   configuringEntityTranslation: function () {
     'use strict';
     jQuery('#entity-translation-admin-form').find('fieldset').each(function () {
@@ -62,14 +62,14 @@ nToolsHelper = {
     });
   },
 
-  // Met à <hidden> toutes les étiquettes des champs dans "Gérer l'affichage".
+  // Set <hidden> for all fields label in "Manage display".
   hideAllFieldLabel: function () {
     'use strict';
     jQuery('#field-display-overview').find('tbody td:nth-child(4) select option[value="hidden"]').each(function () {
       jQuery(this).attr("selected", true);
     });
   },
-  // Met à <hidden> tous les format des champs dans "Gérer l'affichage".
+  // Set <hidden> for all fields format in "Manage display".
   hideAllField: function () {
     'use strict';
     jQuery('#field-display-overview').find('tbody td:nth-child(5) select option[value="hidden"]').each(function () {
@@ -77,7 +77,7 @@ nToolsHelper = {
     });
   },
 
-  // Ajoute une zone transparente sur l'élément voulu.
+  // Add an overlay on the target element.
   addOverlay: function (node, type, output, links ) {
     'use strict';
     var nameLinks = jQuery('<span/>')
@@ -104,7 +104,7 @@ nToolsHelper = {
     );
   },
 
-  // Supprime une ou plusieurs zones transparentes.
+  // Delete one or more overlay.
   deleteOverlay: function (type, node) {
     'use strict';
     if (typeof node === 'object') {
@@ -125,13 +125,13 @@ nToolsHelper = {
       jQuery('.ntools-' + type + 's-toggle').html('Show ' + type.capitalize() + 's');
     }
 
-    // Si toutes les zones n'existent plus, on efface le bouton 'Hide all'.
+    // If there is no overlay left, we remove the 'Hide all' button.
     if (jQuery('.ntools-highlight').length === 0) {
       jQuery('.ntools-hide-all-toggle').remove();
     }
   },
 
-  // Ajoute le bouton "Hide all" qui efface toutes les zones transparentes.
+  // Add the "Hide all" button that delete all overlays.
   addhideAllButton: function (type) {
     'use strict';
     if (jQuery('.ntools-hide-all-toggle').length === 0) {
@@ -152,7 +152,7 @@ nToolsHelper = {
     }
   },
 
-  // Ajoute un <td> sur l'élément voulu.
+  // Prepend a <td> on the target element.
   addTd: function (node, output) {
     'use strict';
     jQuery(node).prepend(
@@ -162,7 +162,7 @@ nToolsHelper = {
     );
   },
 
-  // Ajoute un span sur l'élément voulu.
+  // Prepend a <span> on the target element
   addSpan: function (node, selector, output) {
     'use strict';
     jQuery(node).find(selector).prepend(
@@ -172,7 +172,7 @@ nToolsHelper = {
     );
   },
 
-  // Crée un <th>.
+  // Create a <th>.
   createTh: function (output, colspan) {
     'use strict';
     output = typeof output !== 'undefined' ? output : 'Machine name';
@@ -183,7 +183,7 @@ nToolsHelper = {
       .html(output);
   },
 
-  // Crée un lien qui pointe vers un nouvel onglet.
+  // Create a _blank link.
   createLink: function (href, title, output) {
     'use strict';
     return jQuery('<a></a>')
@@ -224,21 +224,21 @@ backOffice: function () {
     nToolsHelper.addTd(this, output);
   });
 
-  // Ajout du VID sur la liste des vocabulaires.
+  // Add VID in the vocabularies list.
   jQuery('#taxonomy-overview-vocabularies thead tr').prepend(nToolsHelper.createTh('VID'));
   jQuery('#taxonomy-overview-vocabularies tbody tr').each(function () {
     var a = /(.+)\[.+\]/g.exec(jQuery(this).find('select').attr('name'));
 
     nToolsHelper.addTd(this, a[1]);
   });
-  // Ajout de la machine name sur la liste des vocabulaires.
+  // Add machine name in the vocabularies list.
   jQuery('#taxonomy-overview-vocabularies thead tr').prepend(nToolsHelper.createTh());
   jQuery('#taxonomy-overview-vocabularies tbody tr').each(function () {
     var a = jQuery(this).find('a[id*="edit-"]').attr('href').split(slash);
 
     nToolsHelper.addTd(this, a[a.length - 2]);
   });
-  // Ajout des liens "Gérer les champs" et "Gérer l'affichage" sur la liste des vocabulaires.
+  // Add links "Manage fields" and "Manage display" in the vocabularies list.
   jQuery('#taxonomy-overview-vocabularies thead tr').append(nToolsHelper.createTh('Operations +', 2));
   jQuery('#taxonomy-overview-vocabularies tbody tr').each(function () {
     var a = jQuery(this).find('a[id*="edit-"]').attr('href').split(slash),
@@ -251,7 +251,7 @@ backOffice: function () {
       jQuery(this).append(tdField).append(tdDisplay);
   });
 
-  // Ajout du TID sur la liste des termes.
+  // Add TID in terms list.
   jQuery('#taxonomy-overview-terms thead tr').prepend(nToolsHelper.createTh('TID'));
   jQuery('#taxonomy-overview-terms tbody tr').each(function () {
     var a = /:(.+):/.exec(jQuery(this).find('input').attr('name'));
@@ -259,7 +259,7 @@ backOffice: function () {
     nToolsHelper.addTd(this, a[1]);
   });
 
-  // Ajout d'un bouton pour cacher tous les libellés des champs.
+  // Add a button to hide all fields label on "Manage display" page.
   jQuery('#field-display-overview').find('th:nth-child(4)').append(
     jQuery('<button></button>')
       .html('Hide all')
@@ -270,7 +270,7 @@ backOffice: function () {
       })
   );
 
-  // Ajout d'un bouton pour cacher tous les champs.
+  // Add a button to hide all fields on "Manage display" page.
   jQuery('#field-display-overview').find('th:nth-child(5)').append(
     jQuery('<button></button>')
       .html('Hide all')
@@ -281,7 +281,7 @@ backOffice: function () {
       })
   );
 
-  // Ajout de la machine name sur la liste des vues.
+  // Add machine name in views list.
   jQuery('#views-ui-list-page thead tr').prepend(nToolsHelper.createTh());
   jQuery('#views-ui-list-page tbody tr').each(function () {
     var a = jQuery(this).find('.first a').attr('href').split(slash);
@@ -289,7 +289,7 @@ backOffice: function () {
     nToolsHelper.addTd(this, '$view->name = \'' + a[a.length - 2] + '\';');
   });
 
-  // Ajout d'un lien vers un field collection sur la liste des champs.
+  // Add link to the corresponding field collection in "Manage fields" list.
   jQuery('#field-overview tbody tr').each(function () {
     var text = jQuery(this).find('td:nth-child(5)').text();
 
@@ -312,14 +312,14 @@ backOffice: function () {
    * People
    *****************************************************************************
    */
-  // Ajout de l'identifiant sur la liste des utilisateurs.
+  // Add UID in users list.
   jQuery('#user-admin-account tbody tr').each(function () {
     var a = /\/user\/(.+)\/edit/.exec(jQuery(this).find('td:last-child a').attr('href'));
 
     nToolsHelper.addSpan(this, 'td:nth-child(2)', '(' + a[1] + ') ');
   });
 
-  // Ajout de la machine name sur la liste des permissions.
+  // Add machine name in permissions list.
   var permission = jQuery('#user-admin-permissions, #og-ui-admin-global-permissions');
   permission.find('thead tr').prepend(nToolsHelper.createTh());
   permission.find('tbody tr').each(function () {
@@ -333,7 +333,7 @@ backOffice: function () {
     nToolsHelper.addTd(this, output);
   });
 
-  // Ajout de l'identifiant sur la liste des rôles.
+  // Add RID in roles list.
   jQuery('#user-roles tbody tr').each(function () {
     var a = /\/admin\/people\/permissions\/(.+)/.exec(jQuery(this).find('td:last-child a').attr('href'));
 
@@ -347,7 +347,7 @@ backOffice: function () {
    * Modules
    *****************************************************************************
    */
-  // Ajout de la machine name sur la liste des modules.
+  // Add machine name in modules list.
   jQuery('#system-modules thead tr').prepend(nToolsHelper.createTh());
   jQuery('#system-modules tbody tr').each(function () {
     var tableau = /\[.+\]\[(.+)\]\[.+\]/g.exec(jQuery(this).find('input').attr('name'));
@@ -360,7 +360,7 @@ backOffice: function () {
    * Configuration
    *****************************************************************************
    */
-  // Ajout d'un bouton pour cacher tous les libellés des champs.
+  // Add a button to configure appropriately all entities translation.
   jQuery('#entity-translation-admin-form').find('#edit-actions').append(
     jQuery('<button></button>')
       .html('Configuring')
@@ -373,10 +373,10 @@ backOffice: function () {
 
   /*
    *****************************************************************************
-   * Rapports
+   * Reports
    *****************************************************************************
    */
-  // Le tableau de la liste des champs peu être trié.
+  // Allow to sort the fields list.
   jQuery('.page-admin-reports-fields').find('.sticky-enabled th').click(function() {
     var table = jQuery(this).parents('table').eq(0),
       rows = table.find('tr:gt(0)').toArray().sort(compare(jQuery(this).index()));
@@ -454,20 +454,19 @@ toolbar: function () {
       },
     ];
 
-  // On lit les dernières positions de la barre d'outils.
+  // Read last ntools popup position to restore it.
   if (nToolsCookie.read('ntools_toggle_positions') !== null) {
     positions = nToolsCookie.read('ntools_toggle_positions').split(':'),
     stylePosition1 = ' style="position:fixed;top:' + positions[0] + 'px;left:' + positions[1] + 'px"',
     stylePosition2 = ' style="position:fixed;top:' + positions[2] + 'px;left:' + positions[1] + 'px"';
   }
 
-  // Bouton pour cacher/montrer/déplacer .ntools au besoin.
+  // Ntools toggle button
   body.append('<div class="ntools-toggle"' + stylePosition1 + '><button>≡≡≡≡≡≡≡</button></div>');
   ntoolsToggle = jQuery('.ntools-toggle');
   ntoolsToggle.dblclick(function () {
     jQuery('.ntools').slideToggle('fast');
-    // Gestion de l'affichage du bloc en fonction du cookie pour éviter de gêner
-    // quand on est en édition par exemple.
+    // Write the toggle state in the cookie
     if (nToolsCookie.read('ntools_toggle') === 'off') {
       nToolsCookie.create('ntools_toggle', 'on', 30);
     }
@@ -484,7 +483,7 @@ toolbar: function () {
   });
 
   body.append('<div class="ntools"' + stylePosition2 + '></div>');
-  // Cachée ou pas selon le cookie.
+  // Restore toggle state from cookie
   if (nToolsCookie.read('ntools_toggle') === 'off') {
     jQuery('.ntools').css('display', 'none');
   }
@@ -503,7 +502,7 @@ toolbar: function () {
     ntools.css({'position': 'fixed', 'top': top2 + 'px', 'left': left1 + 'px'});
   }
 
-  // Affichage du lien pour se connecter avec gestion de la destination.
+  // Add a "Log in" link with a destination parameter
   if (login === 0) {
     body.find('.ntools').append(
       jQuery('<div></div>')
@@ -515,7 +514,7 @@ toolbar: function () {
         )
     );
   }
-  // Affichage du lien pour se déconnecter.
+  // Add a "Log out" link
   else {
     body.find('.ntools').append(
       jQuery('<div></div>')
@@ -528,7 +527,7 @@ toolbar: function () {
     );
   }
 
-  // Affichage des classes intéressantes du body.
+  // Display body interesting classes
   if (pageNode !== null) {
     bodyClass += pageNode[0] + '<br>';
   }
@@ -559,10 +558,10 @@ toolbar: function () {
     body.find('.ntools').append('<div class="ntools-body-class">' + bodyClass + '</div>');
   }
 
-  // Déplacement du bloc Masquerade dans la balise mère.
+  // Move Masquerade bloc to the ntools popup for easier access.
   body.find('.ntools').append(masquerade);
 
-  // Suppression d'une phrase que je juge inutile.
+  // Remove a (useless) phrase from the Masquerade bloc
   masquerade.find('.description')
     .contents()
     .filter(function () {
@@ -570,7 +569,7 @@ toolbar: function () {
     })
     .remove();
 
-  // Ajout des rôles sur chaque utilisateur.
+  // Add users roles
   masquerade.find('#quick_switch_links li').each(function () {
     var a = jQuery(this).find('a'),
       uid = /\/([0-9]+)\?token/.exec(a.attr('href')),
@@ -618,21 +617,20 @@ toolbar: function () {
                       link = null,
                       links = [];
 
-                    // Un bouton pour mettre en évidence les régions.
+                    // Regions overlay toggle button
                     if (type === 'region') {
                       var classRegion = /region region-([a-z0-9-]+) /.exec(targetClass);
 
                       output = classRegion[1].replace(dash, '_');
                     }
-                    // Un bouton pour mettre en évidence les blocs.
+                    // Bloc overlay toggle button
                     else if (type === 'block') {
                       var classBlock = /block block--?([a-z0-9-]+) /.exec(targetClass),
                         nameBlockReg = new RegExp('block-' + classBlock[1] + '-', 'g'),
                         whithoutDash = classBlock[1].replace(dash, '_'),
                         idBlock = targetId.replace(nameBlockReg, '').replace(dash, '_');
 
-                      // Ce lien permet d'éditer le bloc rapidement surtout dans le cas où
-                      // le contextual link est absent.
+                      // This link is a shortcut to edit the block. Replace contextual links.
                       if (login === 1) {
                         link = nToolsHelper.createLink('/admin/structure/block/manage/' + whithoutDash + '/' + idBlock + '/configure', 'Edit your block', 'E');
                         links.push(link);
@@ -640,14 +638,13 @@ toolbar: function () {
 
                       output = whithoutDash + " → ['" + idBlock + "']";
                     }
-                    // Un bouton pour mettre en évidence les vues.
+                    // Views overlay toggle button.
                     else if (type === 'view') {
                       var classView = /view view-(\S+)/.exec(targetClass),
                         classIdView = /view-display-id-(\S+)/.exec(targetClass),
                         whithoutDash = classView[1].replace(dash, '_');
 
-                      // Ce lien permet d'éditer la vue rapidement surtout dans le cas où
-                      // le contextual link est absent.
+                      // This link is a shortcut to edit the view. Replace contextual links.
                       if (login === 1) {
                         var url = nTools.drupalVersion == 7 ? '/admin/structure/views/view/' + whithoutDash + '/edit/' + classIdView[1] : '/admin/build/views/edit/' + whithoutDash + '#view-tab-' + classIdView[1];
                         link = nToolsHelper.createLink(url, 'Edit your view', 'E');
@@ -656,7 +653,7 @@ toolbar: function () {
 
                       output = whithoutDash + ' → ' + classIdView[1];
                     }
-                    // Un bouton pour mettre en évidence les nodes.
+                    // Nodes overlay toggle button.
                     else if (type === 'node') {
                       var nid = targetId.replace('node-', '')
                       if(typeof nid == 'undefined' || nid == ''){
@@ -690,7 +687,7 @@ toolbar: function () {
                         properties = ' (' + properties.join() + ')';
                       }
 
-                      // Malheureusement, Drupal ne gère que l'accroche.
+                      // Only the teaser view mode is normalized.
                       if (classTeaser !== null) {
                         displayMode = ' → teaser';
                         display = '/teaser';
@@ -698,8 +695,7 @@ toolbar: function () {
 
                       link = nToolsHelper.createLink('/node/' + nid , 'View this node', 'V');
                       links.push(link);
-                      // Ces liens permettent d'aller rapidement à la liste des champs
-                      // ou aux modes d'affichage du node.
+                      // This links are shortcuts to edit this node or this node type fields and display. Replace contextual links.
                       if (login === 1) {
                         link = nToolsHelper.createLink('/node/' + nid + '/edit', 'Edit this node', 'E');
                         links.push(link);
@@ -711,13 +707,12 @@ toolbar: function () {
 
                       output = whithoutDash + properties + displayMode;
                     }
-                    // Un bouton pour mettre en évidence les profiles.
+                    // Profiles overlay toggle button.
                     else if (type === 'profile') {
                       var whithoutDash = classNode[1].replace(dash, '_'),
                         whithoutProfile = classNode[2].replace(dash, '_').replace('profile2_', '');
 
-                      // Ces liens permettent d'aller rapidement à la liste des champs
-                      // ou aux modes d'affichage du profile.
+                      // This links are shortcuts to edit this profile fields and display. Replace contextual links.
                       if (login === 1) {
                         link = nToolsHelper.createLink('/admin/structure/profiles/manage/' + whithoutProfile + '/fields', 'Manage your ' + whithoutProfile + ' fields', 'F');
                         links.push(link);
@@ -727,11 +722,11 @@ toolbar: function () {
 
                       output = whithoutDash + ' → ' + classNode[2].replace(dash, '_');
                     }
-                    // Un bouton pour mettre en évidence les fields.
+                    // Fields overlay toggle button.
                     else if (type === 'field') {
                       output = classNode[1].replace(dash, '_').replace('field_name_', '') + ' (' + classNode[2].replace(dash, '_');
                     }
-                    // Un bouton pour mettre en évidence l'identifiant des formulaires.
+                    // Forms overlay toggle button.
                     else if (type === 'form') {
                       output = targetId.replace(dash, '_');
                     }
@@ -750,7 +745,7 @@ toolbar: function () {
 },
 
 loginFocus: function () {
-  // Autofocus sur le login.
+  // Autofocus  on the login field.
   jQuery('#edit-name').focus();
 },
 
@@ -982,7 +977,7 @@ jQuery(function () {
 
     nTools.drupalVersion = (typeof Drupal.themes == 'undefined') ? 7 : 6;
 
-    // Ajout d'un title avec name/value sur input/textarea/select.
+    // Add a title with name/value on each input/textarea/select.
     jQuery('input, textarea, select').each(function () {
       var input = jQuery(this),
         output = 'Name: ' + input.attr('name');
@@ -994,7 +989,7 @@ jQuery(function () {
       input.attr('title', output);
     });
 
-    // Tous les <option> ont un title avec leur valeur.
+    // Add a title with value on each option
     jQuery('option').each(function () {
       var input = jQuery(this);
 
