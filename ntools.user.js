@@ -375,6 +375,26 @@ backOffice: function () {
       }
     }
   });
+
+  /*
+   *****************************************************************************
+   * Themekey
+   *****************************************************************************
+   */
+  // Add "Duplicate" link to themekey config page
+  jQuery(".themekey-rule-delete-link").closest('td').append(jQuery("<a></a>").html("Copy").addClass("themekey-rule-copy-link"));
+  jQuery(".themekey-rule-copy-link").click(function(){
+    var themekey_id = jQuery(this).parents('tr').find('.themekey-property-id').val();
+    var themekey_property = jQuery(this).parents('tr').find('#edit-old-items-' + themekey_id + '-property').val();
+    var themekey_operator = jQuery(this).parents('tr').find('#edit-old-items-' + themekey_id + '-operator').val();
+    var themekey_value = jQuery(this).parents('tr').find('#edit-old-items-' + themekey_id + '-value').val();
+    var themekey_theme = jQuery(this).parents('tr').find('#edit-old-items-' + themekey_id + '-theme ').val();
+
+    jQuery('#edit-new-item-property').val(themekey_property);
+    jQuery('#edit-new-item-operator').val(themekey_operator);
+    jQuery('#edit-new-item-value').val(themekey_value);
+    jQuery('#edit-new-item-theme ').val(themekey_theme);
+  });
 },
 
 toolbar: function () {
