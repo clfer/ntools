@@ -376,24 +376,69 @@ backOffice: function () {
     }
   });
 
+
   /*
    *****************************************************************************
    * Themekey
    *****************************************************************************
    */
-  // Add "Duplicate" link to themekey config page
-  jQuery(".themekey-rule-delete-link").closest('td').append(jQuery("<a></a>").html("Copy").addClass("themekey-rule-copy-link"));
+  var actionsTd = jQuery(".themekey-rule-delete-link").closest('td');
+  // Provide new actions to themekey config page
+
+  // Add "Duplicate" link
+  actionsTd.append(jQuery("<a></a>").html("copy").addClass("themekey-rule-copy-link"));
   jQuery(".themekey-rule-copy-link").click(function(){
-    var themekey_id = jQuery(this).parents('tr').find('.themekey-property-id').val();
-    var themekey_property = jQuery(this).parents('tr').find('#edit-old-items-' + themekey_id + '-property').val();
-    var themekey_operator = jQuery(this).parents('tr').find('#edit-old-items-' + themekey_id + '-operator').val();
-    var themekey_value = jQuery(this).parents('tr').find('#edit-old-items-' + themekey_id + '-value').val();
-    var themekey_theme = jQuery(this).parents('tr').find('#edit-old-items-' + themekey_id + '-theme ').val();
+    var parent = jQuery(this).parents('tr');
+    var themekey_id = parent.find('.themekey-property-id').val();
+    var themekey_property = parent.find('#edit-old-items-' + themekey_id + '-property').val();
+    var themekey_operator = parent.find('#edit-old-items-' + themekey_id + '-operator').val();
+    var themekey_value = parent.find('#edit-old-items-' + themekey_id + '-value').val();
+    var themekey_theme = parent.find('#edit-old-items-' + themekey_id + '-theme ').val();
 
     jQuery('#edit-new-item-property').val(themekey_property);
     jQuery('#edit-new-item-operator').val(themekey_operator);
     jQuery('#edit-new-item-value').val(themekey_value);
     jQuery('#edit-new-item-theme ').val(themekey_theme);
+  });
+
+  // Add "Unparent" link : all children of this element will be reclassified on the same level as this element
+  actionsTd.append(jQuery("<a></a>").html("unparent").addClass("themekey-rule-unparent-link"));
+  jQuery(".themekey-rule-unparent-link").click(function(){
+    var parent = jQuery(this).parents('tr');
+    var themekey_id = parent.find('.themekey-property-id').val();
+    var themekey_parent = parent.find('#edit-old-items-' + themekey_id + '-parent').val();
+
+    jQuery('[id^=edit-old-items-][id$=-parent]').filter(':has(option[value='+ themekey_id +']:selected)').val(themekey_parent);
+    //TODO trigger rebuild of rows based on the new parent value
+  });
+
+  // Add Reorder children" link: order children by decreasing value (avoid conflict between id based rules).
+  actionsTd.append(jQuery("<a></a>").html("reorder children").addClass("themekey-rule-reorderchildren-link"));
+  jQuery(".themekey-rule-reorderchildren-link").click(function(){
+    var themekey_id = jQuery(this).parents('tr').find('.themekey-property-id').val();
+
+    var children = [];
+
+    jQuery('[id^=edit-old-items-][id$=-parent]').filter(':has(option[value=' + themekey_id + ']:selected)').each(function () {
+        var parent = jQuery(this).parents('tr');
+        var child_id = parent.find('.themekey-property-id').val();
+        var child_value = parent.find('#edit-old-items-' + child_id + '-value').val();
+        children.push({child_value: child_value, child_id: child_id});
+      }
+    );
+
+    children.sort(function (a, b) {
+      a = parseInt(a.child_value);
+      b = parseInt(b.child_value);
+
+      return a > b ? -1 : (a < b ? 1 : 0);
+    });
+
+    for (var i = 0; i < children.length; i++) {
+      var child_id = children[i].child_id;
+      jQuery('#edit-old-items-' + child_id + '-weight').val(i);
+    }
+    //TODO trigger rebuild of rows based on the new weight value
   });
 },
 
