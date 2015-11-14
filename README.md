@@ -1,243 +1,256 @@
 NTools
 ======
 
-Accédez aux informations importantes du markup en 1 clic ou moins pour
-développer plus rapidement.
+Access Drupal useful information from markup with 1 click or less.
 
 ![toolbar](https://raw.githubusercontent.com/NerOcrO/ntools/master/toolbar.png)
 
-## L'essayer, c'est l'adopter !
+## To try it is to love it!
 
-Si vous voulez tester NTools avant de l'installer, créez un marque-page et
-mettez-y ce bookmarklet :
+If you want to test NTools before installing it, create the following bookmarklet :
 
 ```
 javascript:(function(){var script=document.createElement('script');script.src='https://rawgit.com/NerOcrO/ntools/master/ntools.user.js?'+Math.floor(new Date);document.body.appendChild(script);})()
 ```
 
-et regardez tout ce que vous pouvez faire sur votre Drupal favori !
+and see all you can do on your favorite Drupal !
 
 ## Installation
 
 ### Firefox
 
-* Installer [greasemonkey](https://addons.mozilla.org/fr/firefox/addon/greasemonkey/)
-* [Cliquez ici et installer le script](https://github.com/NerOcrO/ntools/raw/master/ntools.user.js)
-* about:addons -> Scripts utilisateur (tête de singe) et cliquer sur le bouton
-"Préférences" et ajoutez vos noms de domaines autorisés (e.g. : http://nerocro.monsite.fr/*)
+* Install [greasemonkey](https://addons.mozilla.org/fr/firefox/addon/greasemonkey/)
+* [Click here and install this script](https://github.com/NerOcrO/ntools/raw/master/ntools.user.js)
+* about:addons -> User scripts (monkey head icon), click on the "Preferences" button
+ and add the domain names on which you want the script to be executed (e.g. : http://nerocro.monsite.fr/*)
 
 ### Chrome
 
-* Installer [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
-* Téléchargez ou clonez ce dépôt
-* Outils->Extensions
-* Cliquez sur le lien "Options" de Tampermonkey
-* Créez un nouveau script en y collant celui-ci puis enregistrez
-* Retournez sur l'onglet "Userscripts installés" et cliquez sur Ntools
-* Cliquez sur l'onglet "Paramètres"
-* Section "Inclusions/Exclusions" -> "Inclusions utilisateur" ajoutez vos noms
-de domaines autorisés (e.g. : http://nerocro.monsite.fr/*)
+* Install [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
+* [Click here and install this script](https://github.com/NerOcrO/ntools/raw/master/ntools.user.js)
+* Tools -> Extensions
+* Click on the Tampermonkey "Settings" link
+* Go to the "Installed userscripts" and click on Ntools
+* Click on the script "Settings" tab
+* Section "Includes/Excludes" -> "User includes": the domain names on which you want the script to be executed (e.g. : http://nerocro.monsite.fr/*)
 
-### Mes pages exclues
+### My excluded pages
 
 * \*/update.php*
 * \*/batch?*
 
-### Thème Drupal
+### Drupal Theme
 
-* Téléchargez ou clonez ce dépôt
-* Placez le script JS dans le répertoire js/ de votre thème
-* Supprimez les huit premières lignes en rapport avec greasemonkey
-* Insérez dans votre_theme.info : `scripts[] = js/ntools.user.js`
+* Download or clone this repo
+* Place this JS script in the js/ directory of your theme
+* Remove the `// ==UserScript==` header (only useful for greasemonkey)
+* Add this line to your_theme.info : `scripts[] = js/ntools.user.js`
 
-## Pourquoi ?
+## Why this script ?
 
-Étant quotidiennement amené à travailler sur plusieurs Drupal différents dans
-une journée, j'ai besoin de trouver l'information rapidement. Du coup j'ai
-développé ce script pour éviter des tâches répétitives comme utiliser
-l'inspecteur d'élément pour trouver comment s'appelle une vue, comment s'appelle
-un bloc, suis-je sur un node, quel est le nid du node en cours, quel est le nom
-machine d'une taxonomie, d'une vue, d'un bloc...
-En **1 clic** (ou moins), j'accède à toutes ces informations soit avec un effet visuel
-soit un colonne en plus dans un tableau (admin) ou soit un lien.
+Has I have to work on several different Drupal each day, I need to
+find information quickly. So I developed this script to avoid repetitive
+tasks like using the element inspector to find what is the name a view,
+what is the name a block, am I on a node, what is the current node nid,
+what is the machine name of taxonomy, views, block ...
+With **1 click** (or less), I can  access to all of this information
+either with a visual effect or a complementary column in a table (admin)
+or with a direct link.
 
-## Je suis un client et je ne sais pas utiliser l'inspecteur d'élément, est-ce que je peux utiliser ce script ?
+## I'm a client and I don't know how to use the element inspector, can I use this script?
 
-Bien sûr !
+Of course!
 
-Ce script n'est pas fait que pour les développeurs, en effet, vous pouvez le
-fournir à votre chef de projet ou votre client pour qu'en un clin d'œil, il
-vous donne certaines informations importantes pour gagner du temps au téléphone
-ou dans l'énoncé d'un(e) tâche/bug.
+This script is not only for developers. You can share it with your project manager
+or your client so that they can give you some important information
+to save time on the phone or in the statement of a task / bug report.
 
-## Pourquoi pas un module contrib ou améliorer le core ?
+## Why not a contrib module or improving the core?
 
-Bonne question !
+Good question!
 
-Créer un module ; oui mais généralement, on ne met pas les modules d'aide aux
-développeurs sur une production, or j'en ai besoin en production.
-Améliorer un module existant ou le core ; oui mais ça prend du temps à valider
-et les gens peuvent ne pas être d'accord avec ce que je propose.
+Create a module: yes but generally we do not enable helper modules on
+production environment yet I need this on production.
+Improve an existant module or the core: Some of the ideas of this module could
+deserve a port to the core and or existing modules but not all of them.
+Plus contribution takes time to be validated and people may not agree with what I propose.
 
-L'avantage de ce module est qu'il s'installe rapidement sur n'importe quelle
-version de Drupal 7, sur n'importe quel domaine (dev/preprod/prod), sur
-n'importe quel navigateur qui gère les "user script" et il n'est pas intrusif.
-L'inconvénient, c'est que c'est du Javascript :D Néanmoins, j'ai appris pas mal
-de chose sur le fonctionnement de Drupal.
+The advantage of this module is that it can be quickly installed on any version of Drupal 7
+on any environment (dev / preprod / prod), on any browser that handles "user script "and it's not intrusive.
+The downside is that it's javascript :D However, I learned a lot of things about how Drupal.
 
-L'autre idée que j'avais derrière la tête était que ce script peut être un bac
-à sable, une sorte de beta test avant intégration dans le core si ça plaît aux
-gens.
+The other idea I had in mind was that this script can be a sandbox,
+a kind of beta testing before integration in the core if it appeals to people.
 
-## Est-ce que ce script est compatible avec Drupal 6 ?
+## Is this script compatible with Drupal 6?
 
-Un peu...
+A bit...
 
-## ~~Guichet~~ Front office
+## Front office
 
-### La mer noire ? non la barre noire !
+### The toolbar
+<!---
+TODO: Try a better translation of this joke?
+La mer noire ? non la barre noire !
+-->
 
-La barre d'outils se colle sur le côté gauche par défaut, est repliable/dépliable
-au double clique et vous pouvez la déplacer où vous voulez. La configuration est
-enregistré grâce au cookies ntools_toggle et ntools_toggle_positions.
+The toolbar sticks by default to the left side, is togglable with a double click and
+you can move it wherever you want. The configuration is saved thanks to `ntools_toggle`
+and `ntools_toggle_positions` cookies.
 
-### Lien de connexion
+### Login link
 
-#### Philosophie
+#### Problem
 
-Parfois, je n'ai pas le formulaire d'authentification à porter de main sur
-toutes les pages (problème de conception !) ou je dois cliquer sur un pseudo
-lien pour qu'il s'affiche, du coup, je tape dans mon navigateur user/
-ce qui est fatiguant...
+Sometimes their is no authentication form at hand on all pages (UI design problem!)
+or I have to click a pseudo-link for it to appear, so I type in my browser "/user/login"
+which is annoying on the long term...
 
-#### Fonctionnalité
+#### Functionality
 
-Affichage d'un lien qui redirige vers /user avec le paramètre destination.
+Display a link to "/user" with the destination parameter set to current page.
 
 #### Bonus track
 
-J'ai ajouter le focus sur le name du formulaire d'authentification comme ça, si
-vous avez enregistrer vos identifiants, vous n'avez plus qu'à appuyer sur la
-touche entrée.
+Auto focus on the login field, allowing your browser to autofill if you registered
+your ?identifiant?. You just need to hit the ?Entrée? key.
 
-#### Problème connu
+#### Known issue
 
-Le préfixe de langue n'est pas pris en compte.
-Fonctionne uniquement si vous avez créée un domaine.
+* The language prefix is not working
+* Works only if you created a domain
 
-### Lien de déconnexion
+### Logout link
 
-#### Philosophie
+#### Problem
 
-Parfois, je n'ai pas le lien de déconnexion à portée de main sur toutes les
-pages (problème de conception !) ou il faut cliquer sur un pseudo lien pour
-qu'il s'affiche, du coup, je tape dans mon navigateur user/
-ce qui est fatiguant...
+Sometimes their is no logout link at hand on all pages (UI design problem!)
+or I have to click a pseudo-link for it to appear, so I type in my browser "/user/logout"
+which is annoying on the long term...
 
-### Fonctionnalité
+#### Functionality
 
-Affichage d'un lien pour se déconnecter.
+Displa a logout link.
 
-#### Problèmes connus
+#### Known issues
 
-* Le préfixe de langue n'est pas pris en compte.
-* Fonctionne uniquement si vous avez créée un domaine.
+* The language prefix is not working
+* Works only if you created a domain
 
-### Classes du body
+### Body classes
 
-#### Philosophie
+#### Problem
 
-Quand j'arrive sur une page tiré d'un bug sans description, je ne sais pas
-forcément sur quel type de page je suis. Une entité ? De quel type ?
-Quel est son nid ? J'ouvre donc l'inspecteur d'élément...
+When an incomplete issue links to a page, I miss some information.
+What page is it? an entity? of wich type? What is the nid?
+Those pieces of information can be available by opening the element inspector and checking the bod classes.
 
-#### Fonctionnalité
+#### Functionality
 
-Affichage des classes commençant par "page-node-", "node-type-", "page-type-",
-"page-taxonomy-term-" et "page-user-".
-Affichage également de "context-" avec un lien pour les modifier.
+Display the classes beginning with "page-node-", "node-type-", "page-type-",
+"page-taxonomy-term-" and "page-user-".
+Display also "context-" classes with a link to edit the context.
 
 ### Masquerade
 
-#### Philosophie
+#### Problem
 
-Lors des tests, il faut souvent changer d'utilisateur alors on ouvre plusieurs
-navigateurs en même temps ce qui n'est pas forcément pratique. Il y a aussi
-la possibilité d'utiliser le module [Administration menu](https://www.drupal.org/project/admin_menu)
-qui est juste indispensable mais son switch d'utilisateur est... nul.
+During testing phase, you need to change user frequently so you open multiple tabs.
+[Administration menu](https://www.drupal.org/project/admin_menu) offers a switch user
+functionality but [Masquerade](https://www.drupal.org/project/masquerade) is just way better.
 
 #### Installation
 
-Du coup, mieux vaut installer le module [masquerade](https://www.drupal.org/project/masquerade).
-Ensuite, il faut le placer dans la région "footer".
+Install [masquerade](https://www.drupal.org/project/masquerade) module.
+Place the masquerade block in the "footer" region.
+
+_You will need [drush_extras](https://www.drupal.org/project/drush_extras) for the following command_
+
 `drush block-configure --module=masquerade --delta=masquerade --region=footer`
 
-Il faut avoir installer [drush_extras](https://www.drupal.org/project/drush_extras)
-au préalable.
+#### Functionality
 
-#### Fonctionnalité
+Integrate masquerade block into our toolbar to have it at hand all the time.
 
-Intégration du bloc masquerade dans notre barre pour l'avoir tout le temps.
+Add role to each user (title attributes)  waiting for [this functionality](https://www.drupal.org/node/2355069).
 
-Ajout des rôles sur chaque utilisateur (attribut title)
-en attendant [cette fonctionnalité](https://www.drupal.org/node/2355069).
+### Display recurring elements
 
-### Mise en évidence d'éléments récurrents
+#### Problem
 
-#### Philosophie
+A lot of information are accessible by using the element inspector and checking classes/ids
+belonging to a node, a field, a view...
 
-De manière générale, lors d'un développement ou d'une résolution de bug, je
-passe énormément de temps avec l'inspecteur d'élément pour visualiser les
-classes/id appartenant à un node, un champ, une vue et j'en passe ; c'est très
-long et chiant surtout quand je passe derrière un collègue ou trois mois après.
+#### Functionality
 
-#### Fonctionnalité
+Extract info from those classes and ids and allow to have a better visualization of:
+* <span style="background-color:#018FE2;color:#FFF;">regions</span>
+* <span style="background-color:#B73939;color:#FFF;">blocks</span>
+* <span style="background-color:#FFA300;color:#FFF;">views</span>
+* <span style="background-color:#4D8F46;color:#FFF;">nodes</span>
+* <span style="background-color:#4D8F46;color:#FFF;">profiles</span> (profile2)
+* <span style="background-color:#783A00;color:#FFF;">fields</span>
+* <span style="background-color:#4A3657;color:#FFF;">forms</span>
 
-Ajout de boutons pour mieux visualiser les régions, blocs, vues, nodes,
-profiles, champs et formulaires. Ces boutons ne s'affichent uniquement que si
-ces éléments sont présents dans la page. Au clic, un calque noir transparent
-s'affiche sur l'espace occupé par l'élément avec son identifiant pour mieux le
-chercher dans votre code. Au clic sur cette dernière, elle disparait. Si vous ne
-voyez rien apparaître, c'est que l'élément est caché et qu'il faut qu'un
-événement se produise pour le voir (e.g. popin). Toujours au clic, un bouton
-pour effacer toutes les zones apparaît. Il disparaît quand il n'y a plus de
-zone à effacer.
+Those buttons will appear if any of the corresponding elements are found.
 
-#### Les blocs
+By clicking any of them, black transparent overlays will highlight the corresponding element
+and display extended information. Clicking any of them will, remove it.
 
-Dans certains cas, les liens contextuels (petit engrenage) ne s'affichent pas.
-J'ai donc ajouté un lien d'édition [E] du bloc dans une nouvelle fenêtre sans le
-paramètre destination.
+##### Regions
 
-#### Les vues
+Display region machine name
 
-Dans certains cas, les liens contextuels (petit engrenage) ne s'affichent pas,
-notamment quand on affiche une vue de façon programmatique. J'ai donc ajouté un
-lien d'édition [E] de la vue dans une nouvelle fenêtre sans le paramètre
-destination.
+##### Blocks
 
-#### Les nodes
+Display block id and machine name.
 
-Pour éviter de passer par l'admin menu, j'ai ajouté deux liens dans une nouvelle
-fenêtre vers :
+If you're logged in, the following link is displayed:
+* Edit this block **[E]**
 
-* Gérer les champs [F]
-* Gérer l'affichage [D]
+##### Views
 
-J'affiche ensuite le type du node puis le mode d'affichage 'accroche' s'il
-existe car par défaut, Drupal n'intègre que la classe de ce dernier.
+Display view machine name and display name.
 
-J'affiche enfin les propriétés du node :
+If you're logged in, the following link is displayed:
+* Edit this block **[E]**
 
-* P → Promoted
-* S → Sticky
-* U → Unpublished
+##### Nodes
 
-#### Troll
+Display node nid and content type.
 
-Vous verrez que parfois les calques peuvent s'entremêler, se chevaucher ou ne
-prennent pas tout l'espace ce qui signifiera que votre intégrateur peut revoir
-sa copie...
+The following properties are displayed (if applicable) :
+* **P** → Promoted
+* **S** → Sticky
+* **U** → Unpublished
+* **teaser** → view mode teaser
+
+The following link is displayed:
+* View this node **[V]**
+
+If you're logged in, the following links are displayed:
+* Edit this node **[E]**
+* Manage fields **[F]**
+* Manage display **[D]**
+
+##### Profile
+
+Display profile machine name.
+
+* Manage fields **[F]**
+* Manage display **[D]**
+
+##### Fields
+
+Display field machine name and field type.
+
+##### Forms
+
+Display form machine name.
+
+##### _Troll_
+
+_Sometimes the overlays can collapse, meaning that your front end developer may have to review its work..._
 
 ## ~~Arrière-guichet~~ Back office
 
