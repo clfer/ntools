@@ -640,8 +640,12 @@ toolbar: function () {
                     }
                     // Un bouton pour mettre en évidence les nodes.
                     else if (type === 'node') {
-                      var nid = targetId.replace('node-', ''),
-                        whithoutDash = classNode[1].replace(dash, '_'),
+                      var nid = targetId.replace('node-', '')
+                      if(typeof nid == 'undefined' || nid == ''){
+                        var matches = /node-([0-9]+)/.exec(targetClass);
+                        nid = matches[1];
+                      }
+                      var  whithoutDash = classNode[1].replace(dash, '_'),
                         whithoutNode = whithoutDash.replace('node_', ''),
                         classTeaser = /node-teaser/.exec(targetClass),
                         classPromoted = /node-promoted/.exec(targetClass),
