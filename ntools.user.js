@@ -71,8 +71,14 @@ nToolsHelper = {
   },
 
   // Ajoute une zone transparente sur l'élément voulu.
-  addOverlay: function (node, type, output, link1, link2) {
+  addOverlay: function (node, type, output, links ) {
     'use strict';
+    var nameLinks = jQuery('<span/>')
+      .addClass('ntools-links');
+    for (var i = 0; i < links.length; i++) {
+      nameLinks.append(links[i]);
+    }
+    
     jQuery(node).append(
       jQuery('<div></div>')
         .addClass('ntools-highlight')
@@ -80,7 +86,7 @@ nToolsHelper = {
           jQuery('<div></div>')
             .addClass('ntools-' + type + '-name')
             .html(output)
-            .prepend(link1, ' ', link2, ' ')
+            .prepend(nameLinks)
             .click(function (e) {
               e.stopPropagation();
             })
@@ -296,8 +302,9 @@ backOffice: function () {
   });
 
   // Ajout de la machine name sur la liste des permissions.
-  jQuery('#user-admin-permissions thead tr').prepend(nToolsHelper.createTh());
-  jQuery('#user-admin-permissions tbody tr').each(function () {
+  var permission = jQuery('#user-admin-permissions, #og-ui-admin-global-permissions');
+  permission.find('thead tr').prepend(nToolsHelper.createTh());
+  permission.find('tbody tr').each(function () {
     var tableau = /\[(.+)\]/.exec(jQuery(this).find('input').attr('name')),
       output = '-';
 
@@ -656,7 +663,7 @@ toolbar: function () {
                       classNode = targetClass.split(' '),
                       output = '',
                       link = null,
-                      link2 = null;
+                      links = [];
 
                     // Un bouton pour mettre en évidence les régions.
                     if (type === 'region') {
@@ -675,6 +682,7 @@ toolbar: function () {
                       // le contextual link est absent.
                       if (login === 1) {
                         link = nToolsHelper.createLink('/admin/structure/block/manage/' + whithoutDash + '/' + idBlock + '/configure', 'Edit your block', 'E');
+                        links.push(link);
                       };
 
                       output = whithoutDash + " → ['" + idBlock + "']";
@@ -690,13 +698,19 @@ toolbar: function () {
                       if (login === 1) {
                         var url = nTools.drupalVersion == 7 ? '/admin/structure/views/view/' + whithoutDash + '/edit/' + classIdView[1] : '/admin/build/views/edit/' + whithoutDash + '#view-tab-' + classIdView[1];
                         link = nToolsHelper.createLink(url, 'Edit your view', 'E');
+                        links.push(link);
                       };
 
                       output = whithoutDash + ' → ' + classIdView[1];
                     }
                     // Un bouton pour mettre en évidence les nodes.
                     else if (type === 'node') {
-                      var whithoutDash = classNode[1].replace(dash, '_'),
+                      var nid = targetId.replace('node-', '')
+                      if(typeof nid == 'undefined' || nid == ''){
+                        var matches = /node-([0-9]+)/.exec(targetClass);
+                        nid = matches[1];
+                      }
+                      var  whithoutDash = classNode[1].replace(dash, '_'),
                         whithoutNode = whithoutDash.replace('node_', ''),
                         classTeaser = /node-teaser/.exec(targetClass),
                         classPromoted = /node-promoted/.exec(targetClass),
@@ -732,8 +746,14 @@ toolbar: function () {
                       // Ces liens permettent d'aller rapidement à la liste des champs
                       // ou aux modes d'affichage du node.
                       if (login === 1) {
+                        link = nToolsHelper.createLink('/node/' + nid , 'View this node', 'V');
+                        links.push(link);
+                        link = nToolsHelper.createLink('/node/' + nid + '/edit', 'Edit this node', 'E');
+                        links.push(link);
                         link = nToolsHelper.createLink('/admin/structure/types/manage/' + whithoutNode + '/fields', 'Manage your ' + whithoutNode + ' fields', 'F');
-                        link2 = nToolsHelper.createLink('/admin/structure/types/manage/' + whithoutNode + '/display' + display, 'Manage your ' + whithoutNode + ' displays', 'D');
+                        links.push(link);
+                        link = nToolsHelper.createLink('/admin/structure/types/manage/' + whithoutNode + '/display' + display, 'Manage your ' + whithoutNode + ' displays', 'D');
+                        links.push(link);
                       }
 
                       output = whithoutDash + properties + displayMode;
@@ -747,7 +767,9 @@ toolbar: function () {
                       // ou aux modes d'affichage du profile.
                       if (login === 1) {
                         link = nToolsHelper.createLink('/admin/structure/profiles/manage/' + whithoutProfile + '/fields', 'Manage your ' + whithoutProfile + ' fields', 'F');
-                        link2 = nToolsHelper.createLink('/admin/structure/profiles/manage/' + whithoutProfile + '/display', 'Manage your ' + whithoutProfile + ' displays', 'D');
+                        links.push(link);
+                        link = nToolsHelper.createLink('/admin/structure/profiles/manage/' + whithoutProfile + '/display', 'Manage your ' + whithoutProfile + ' displays', 'D');
+                        links.push(link);
                       }
 
                       output = whithoutDash + ' → ' + classNode[2].replace(dash, '_');
@@ -760,8 +782,7 @@ toolbar: function () {
                     else if (type === 'form') {
                       output = targetId.replace(dash, '_');
                     }
-
-                    nToolsHelper.addOverlay(this, type, output, link, link2);
+                    nToolsHelper.addOverlay(this, type, output, links);
                   });
 
                   nToolsHelper.addhideAllButton();
@@ -983,6 +1004,9 @@ styles: function () {
 .ntools-form-name {
   background-color: #4A3657;
 }
+.ntools-links a {
+  margin-right: 3px;
+}
 .ntools-hidden {
   background: #000;
   border: none;
@@ -1000,34 +1024,36 @@ styles: function () {
 };
 
 jQuery(function () {
-  nTools.styles();
+  if(typeof Drupal != 'undefined'){
+    nTools.styles();
 
-  nTools.drupalVersion = (typeof Drupal.themes == 'undefined') ? 7 : 6;
+    nTools.drupalVersion = (typeof Drupal.themes == 'undefined') ? 7 : 6;
 
-  // Ajout d'un title avec name/value sur input/textarea/select.
-  jQuery('input, textarea, select').each(function () {
-    var input = jQuery(this),
-      output = 'Name: ' + input.attr('name');
+    // Ajout d'un title avec name/value sur input/textarea/select.
+    jQuery('input, textarea, select').each(function () {
+      var input = jQuery(this),
+        output = 'Name: ' + input.attr('name');
 
-    if (input.attr('type') === 'checkbox' || input.attr('type') === 'radio') {
-      output += '\nValue: ' + input.val();
+      if (input.attr('type') === 'checkbox' || input.attr('type') === 'radio') {
+        output += '\nValue: ' + input.val();
+      }
+
+      input.attr('title', output);
+    });
+
+    // Tous les <option> ont un title avec leur valeur.
+    jQuery('option').each(function () {
+      var input = jQuery(this);
+
+      input.attr('title', 'Value: ' + input.val());
+    });
+
+    if (jQuery('body[class*="page-admin"]').length === 1) {
+      nTools.backOffice();
     }
-
-    input.attr('title', output);
-  });
-
-  // Tous les <option> ont un title avec leur valeur.
-  jQuery('option').each(function () {
-    var input = jQuery(this);
-
-    input.attr('title', 'Value: ' + input.val());
-  });
-
-  if (jQuery('body[class*="page-admin"]').length === 1) {
-    nTools.backOffice();
-  }
-  else {
-    nTools.toolbar();
-    nTools.loginFocus();
+    else {
+      nTools.toolbar();
+      nTools.loginFocus();
+    }
   }
 });
