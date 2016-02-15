@@ -955,34 +955,36 @@ styles: function () {
 };
 
 jQuery(function () {
-  nTools.styles();
+  if(typeof Drupal != 'undefined'){
+    nTools.styles();
 
-  nTools.drupalVersion = (typeof Drupal.themes == 'undefined') ? 7 : 6;
+    nTools.drupalVersion = (typeof Drupal.themes == 'undefined') ? 7 : 6;
 
-  // Ajout d'un title avec name/value sur input/textarea/select.
-  jQuery('input, textarea, select').each(function () {
-    var input = jQuery(this),
-      output = 'Name: ' + input.attr('name');
+    // Ajout d'un title avec name/value sur input/textarea/select.
+    jQuery('input, textarea, select').each(function () {
+      var input = jQuery(this),
+        output = 'Name: ' + input.attr('name');
 
-    if (input.attr('type') === 'checkbox' || input.attr('type') === 'radio') {
-      output += '\nValue: ' + input.val();
+      if (input.attr('type') === 'checkbox' || input.attr('type') === 'radio') {
+        output += '\nValue: ' + input.val();
+      }
+
+      input.attr('title', output);
+    });
+
+    // Tous les <option> ont un title avec leur valeur.
+    jQuery('option').each(function () {
+      var input = jQuery(this);
+
+      input.attr('title', 'Value: ' + input.val());
+    });
+
+    if (jQuery('body[class*="page-admin"]').length === 1) {
+      nTools.backOffice();
     }
-
-    input.attr('title', output);
-  });
-
-  // Tous les <option> ont un title avec leur valeur.
-  jQuery('option').each(function () {
-    var input = jQuery(this);
-
-    input.attr('title', 'Value: ' + input.val());
-  });
-
-  if (jQuery('body[class*="page-admin"]').length === 1) {
-    nTools.backOffice();
-  }
-  else {
-    nTools.toolbar();
-    nTools.loginFocus();
+    else {
+      nTools.toolbar();
+      nTools.loginFocus();
+    }
   }
 });
