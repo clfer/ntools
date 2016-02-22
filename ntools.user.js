@@ -63,9 +63,16 @@ nToolsHelper = {
   },
 
   // Met à <hidden> toutes les étiquettes des champs dans "Gérer l'affichage".
-  hideAllField: function () {
+  hideAllFieldLabel: function () {
     'use strict';
     jQuery('#field-display-overview').find('tbody td:nth-child(4) select option[value="hidden"]').each(function () {
+      jQuery(this).attr("selected", true);
+    });
+  },
+  // Met à <hidden> tous les format des champs dans "Gérer l'affichage".
+  hideAllField: function () {
+    'use strict';
+    jQuery('#field-display-overview').find('tbody td:nth-child(5) select option[value="hidden"]').each(function () {
       jQuery(this).attr("selected", true);
     });
   },
@@ -78,7 +85,7 @@ nToolsHelper = {
     for (var i = 0; i < links.length; i++) {
       nameLinks.append(links[i]);
     }
-    
+
     jQuery(node).append(
       jQuery('<div></div>')
         .addClass('ntools-highlight')
@@ -254,6 +261,17 @@ backOffice: function () {
 
   // Ajout d'un bouton pour cacher tous les libellés des champs.
   jQuery('#field-display-overview').find('th:nth-child(4)').append(
+    jQuery('<button></button>')
+      .html('Hide all')
+      .addClass('ntools-hidden')
+      .click(function () {
+        nToolsHelper.hideAllFieldLabel();
+        return false;
+      })
+  );
+
+  // Ajout d'un bouton pour cacher tous les champs.
+  jQuery('#field-display-overview').find('th:nth-child(5)').append(
     jQuery('<button></button>')
       .html('Hide all')
       .addClass('ntools-hidden')
